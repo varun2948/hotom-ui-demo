@@ -422,56 +422,6 @@
           <li><code>&lt;hot-tracking&gt;</code> - Matomo analytics integration with consent management</li>
         </ul>
         
-        <h4>OAuth Authentication</h4>
-        <p>The header component supports multiple OAuth providers using the <code>login-providers</code> attribute:</p>
-        
-        <h5>Method 1: HTML Attribute (JSON string)</h5>
-        <div class="code-block">
-&lt;hot-header 
-  showLogin
-  login-providers='{
-    "osm": {
-      "name": "Personal OSM Account",
-      "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
-      "redirectUrl": "https://example.com/auth/osm/callback",
-      "clientId": "your-osm-client-id",
-      "scope": "read_prefs"
-    }
-  }'&gt;
-&lt;/hot-header&gt;
-        </div>
-        
-        <h5>Method 2: JavaScript (Recommended for complex configs)</h5>
-        <div class="code-block">
-const header = document.querySelector('hot-header');
-header.loginProviders = {
-  osm: {
-    name: "Personal OSM Account",
-    loginUrl: "https://www.openstreetmap.org/oauth2/authorize",
-    redirectUrl: "https://example.com/auth/osm/callback",
-    clientId: "your-osm-client-id",
-    scope: "read_prefs"
-  },
-  google: {
-    name: "Google Account",
-    loginUrl: "https://accounts.google.com/o/oauth2/v2/auth",
-    redirectUrl: "https://example.com/auth/google/callback",
-    clientId: "your-google-client-id.apps.googleusercontent.com",
-    scope: "openid email profile"
-  }
-};
-        </div>
-        
-        <h5>Provider Configuration Options:</h5>
-        <ul>
-          <li><strong>name:</strong> Display name for the provider (optional, defaults to formatted key)</li>
-          <li><strong>loginUrl:</strong> OAuth authorization endpoint URL</li>
-          <li><strong>redirectUrl:</strong> OAuth redirect URI for your application</li>
-          <li><strong>clientId:</strong> OAuth client ID from the provider</li>
-          <li><strong>scope:</strong> OAuth scope(s) to request (optional)</li>
-          <li><strong>icon:</strong> Custom icon URL or icon name (optional)</li>
-        </ul>
-        
         <h4>Important Notes</h4>
         <div class="tracking-demo">
           <ul>
