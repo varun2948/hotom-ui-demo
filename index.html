@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HOTOSM UI Components Demo</title>
   <script type="module" src="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/hotosm-ui.js"></script>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/style.css"> -->
   <link rel="stylesheet" href="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/themes/hot.css">
   <style>
     body { 
@@ -108,8 +109,22 @@
   <hot-header
     title="HOTOSM UI Demo"
     showLogin
-    osm-oauth-client-id="9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY"
-    osm-oauth-redirect-uri="https://ui.hotosm.org/"
+    login-providers='{
+      "osm": {
+        "name": "Personal OSM Account",
+        "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+        "redirectUrl": "https://ui.hotosm.org/auth/osm/callback",
+        "clientId": "9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY",
+        "scope": "read_prefs"
+      },
+      "google": {
+        "name": "Google Account",
+        "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+        "redirectUrl": "https://ui.hotosm.org/auth/google/callback",
+        "clientId": "324666796748-028mcm5lk1pacbjv5lccahgesn2mhkh2.apps.googleusercontent.com",
+        "scope": "openid email profile"
+      }
+    }'
   ></hot-header>
 
   <main>
@@ -146,15 +161,63 @@
           <hot-header 
             title="OSM Auth" 
             showLogin
-            osm-oauth-client-id="demo-client-id"
-            osm-oauth-redirect-uri="https://example.com/callback">
-          </hot-header>
+            osm-oauth-client-id="9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY"
+            osm-oauth-redirect-uri="https://ui.hotosm.org/"
+          ></hot-header>
           <div class="code-block">
 &lt;hot-header 
   title="OSM Auth" 
   showLogin
   osm-oauth-client-id="demo-client-id"
   osm-oauth-redirect-uri="https://example.com/callback"&gt;
+&lt;/hot-header&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Header with loginProviders Attribute (Recommended)</h4>
+          <hot-header 
+            title="Advanced Auth" 
+            showLogin
+            login-providers='{
+              "osm": {
+                "name": "Personal OSM Account",
+                "icon": "https://www.openstreetmap.org/assets/osm_logo-4b074077c29e100f40ee64f5177886e36b570d4cc3ab10c7b263003d09642e3f.svg",
+                "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+                "redirectUrl": "https://ui.hotosm.org/",
+                "clientId": "9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY",
+                "scope": "read_prefs"
+              },
+              "google": {
+                "name": "Google Account",
+                "icon": "https://developers.google.com/identity/images/g-logo.png",
+                "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+                "redirectUrl": "https://ui.hotosm.org/",
+                "clientId": "324666796748-028mcm5lk1pacbjv5lccahgesn2mhkh2.apps.googleusercontent.com",
+                "scope": "openid email profile"
+              }
+            }'
+          ></hot-header>
+          <div class="code-block">
+&lt;hot-header 
+  title="Advanced Auth" 
+  showLogin
+  login-providers='{
+    "osm": {
+      "name": "Personal OSM Account",
+      "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+      "redirectUrl": "https://example.com/auth/osm/callback",
+      "clientId": "your-osm-client-id",
+      "scope": "read_prefs"
+    },
+    "google": {
+      "name": "Google Account", 
+      "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+      "redirectUrl": "https://example.com/auth/google/callback",
+      "clientId": "your-google-client-id.apps.googleusercontent.com",
+      "scope": "openid email profile"
+    }
+  }'&gt;
 &lt;/hot-header&gt;
           </div>
         </div>
@@ -279,7 +342,7 @@
           </div>
           <hot-tracking 
             site-id="1"
-            domain="varun2948.github.io"
+            domain="demo.hotosm.org"
             matomo-url="https://matomo.hotosm.org"
             show-consent="true"
             consent-message="We use analytics to improve our services. Your data helps us understand how our platform is used.">
@@ -302,7 +365,7 @@
           </div>
           <hot-tracking 
             site-id="2"
-            domain="varun2948.github.io"
+            domain="demo.hotosm.org"
             matomo-url="https://matomo.hotosm.org"
             show-consent="false">
           </hot-tracking>
@@ -353,16 +416,67 @@
         
         <h4>Available Components</h4>
         <ul>
-          <li><code>&lt;hot-header&gt;</code> - Navigation header with optional OSM authentication</li>
+          <li><code>&lt;hot-header&gt;</code> - Navigation header with optional OAuth authentication (OSM, Google)</li>
           <li><code>&lt;hot-logo&gt;</code> - HOTOSM logo with various display options</li>
           <li><code>&lt;hot-consent&gt;</code> - Privacy consent banner with customizable messaging</li>
           <li><code>&lt;hot-tracking&gt;</code> - Matomo analytics integration with consent management</li>
+        </ul>
+        
+        <h4>OAuth Authentication</h4>
+        <p>The header component supports multiple OAuth providers using the <code>login-providers</code> attribute:</p>
+        
+        <h5>Method 1: HTML Attribute (JSON string)</h5>
+        <div class="code-block">
+&lt;hot-header 
+  showLogin
+  login-providers='{
+    "osm": {
+      "name": "Personal OSM Account",
+      "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+      "redirectUrl": "https://example.com/auth/osm/callback",
+      "clientId": "your-osm-client-id",
+      "scope": "read_prefs"
+    }
+  }'&gt;
+&lt;/hot-header&gt;
+        </div>
+        
+        <h5>Method 2: JavaScript (Recommended for complex configs)</h5>
+        <div class="code-block">
+const header = document.querySelector('hot-header');
+header.loginProviders = {
+  osm: {
+    name: "Personal OSM Account",
+    loginUrl: "https://www.openstreetmap.org/oauth2/authorize",
+    redirectUrl: "https://example.com/auth/osm/callback",
+    clientId: "your-osm-client-id",
+    scope: "read_prefs"
+  },
+  google: {
+    name: "Google Account",
+    loginUrl: "https://accounts.google.com/o/oauth2/v2/auth",
+    redirectUrl: "https://example.com/auth/google/callback",
+    clientId: "your-google-client-id.apps.googleusercontent.com",
+    scope: "openid email profile"
+  }
+};
+        </div>
+        
+        <h5>Provider Configuration Options:</h5>
+        <ul>
+          <li><strong>name:</strong> Display name for the provider (optional, defaults to formatted key)</li>
+          <li><strong>loginUrl:</strong> OAuth authorization endpoint URL</li>
+          <li><strong>redirectUrl:</strong> OAuth redirect URI for your application</li>
+          <li><strong>clientId:</strong> OAuth client ID from the provider</li>
+          <li><strong>scope:</strong> OAuth scope(s) to request (optional)</li>
+          <li><strong>icon:</strong> Custom icon URL or icon name (optional)</li>
         </ul>
         
         <h4>Important Notes</h4>
         <div class="tracking-demo">
           <ul>
             <li>Replace <code>YOUR_CLIENT_ID</code> and <code>YOUR_REDIRECT_URI</code> with your actual OSM OAuth credentials</li>
+            <li>For Google OAuth, replace <code>your-google-client-id.apps.googleusercontent.com</code> with your actual Google OAuth client ID</li>
             <li>Update the Matomo tracking configuration with your actual site ID and domain</li>
             <li>Customize consent messages according to your privacy policy</li>
             <li>Test all components thoroughly in your specific use case</li>
@@ -420,6 +534,7 @@
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
       console.log('HOTOSM UI Components Demo loaded successfully!');
+      
     });
   </script>
 </body>
