@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOTOSM UI Components Demo</title>
+  <script type="module" src="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/hotosm-ui.js"></script>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/style.css"> -->
+  <link rel="stylesheet" href="https://unpkg.com/@hotosm/ui@0.3.1-b1/dist/themes/hot.css">
+  <style>
+    body { 
+      margin: 0; 
+      font-family: sans-serif; 
+      background: #f8f9fa; 
+      line-height: 1.6;
+    }
+    main { 
+      padding: 2rem; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+    }
+    .component-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .component-title {
+      color: #f34d47;
+      border-bottom: 2px solid #f34d47;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .demo-item {
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background: #fafbfc;
+    }
+    .demo-item h4 {
+      margin-top: 0;
+      color: #333;
+    }
+    .code-block {
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .button-demo {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 1rem 0;
+    }
+    .logo-demo {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .tracking-demo {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .interactive-demo {
+      background: #e8f5e8;
+      border: 1px solid #c3e6c3;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .demo-controls {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .demo-controls button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .demo-controls button:hover {
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Component -->
+  <hot-header
+    title="HOTOSM UI Demo"
+    showLogin
+    login-providers='{
+      "osm": {
+        "name": "Personal OSM Account",
+        "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+        "redirectUrl": "https://ui.hotosm.org/auth/osm/callback",
+        "clientId": "9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY",
+        "scope": "read_prefs"
+      },
+      "google": {
+        "name": "Google Account",
+        "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+        "redirectUrl": "https://ui.hotosm.org/auth/google/callback",
+        "clientId": "324666796748-028mcm5lk1pacbjv5lccahgesn2mhkh2.apps.googleusercontent.com",
+        "scope": "openid email profile"
+      }
+    }'
+  ></hot-header>
+
+  <main>
+    <h1>HOTOSM UI Components Demo</h1>
+    <p>This page demonstrates all available components from the HOTOSM UI library with various configurations and interactive examples.</p>
+
+    <!-- Header Component Examples -->
+    <section class="component-section">
+      <h2 class="component-title">Header Component Examples</h2>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Basic Header</h4>
+          <hot-header title="Basic Demo"></hot-header>
+          <div class="code-block">
+&lt;hot-header title="Basic Demo"&gt;&lt;/hot-header&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Header with Logo</h4>
+          <hot-header 
+            title="With Logo" >
+          </hot-header>
+          <div class="code-block">
+&lt;hot-header 
+  title="With Logo" 
+&lt;/hot-header&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Header with OSM Login</h4>
+          <hot-header 
+            title="OSM Auth" 
+            showLogin
+            osm-oauth-client-id="9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY"
+            osm-oauth-redirect-uri="https://ui.hotosm.org/"
+          ></hot-header>
+          <div class="code-block">
+&lt;hot-header 
+  title="OSM Auth" 
+  showLogin
+  osm-oauth-client-id="demo-client-id"
+  osm-oauth-redirect-uri="https://example.com/callback"&gt;
+&lt;/hot-header&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Header with loginProviders Attribute (Recommended)</h4>
+          <hot-header 
+            title="Advanced Auth" 
+            showLogin
+            login-providers='{
+              "osm": {
+                "name": "Personal OSM Account",
+                "icon": "https://www.openstreetmap.org/assets/osm_logo-4b074077c29e100f40ee64f5177886e36b570d4cc3ab10c7b263003d09642e3f.svg",
+                "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+                "redirectUrl": "https://ui.hotosm.org/",
+                "clientId": "9qmECyRwBNFyqNl9LszwHX1WOxKFKeBsA5ofAS1GJGY",
+                "scope": "read_prefs"
+              },
+              "google": {
+                "name": "Google Account",
+                "icon": "https://developers.google.com/identity/images/g-logo.png",
+                "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+                "redirectUrl": "https://ui.hotosm.org/",
+                "clientId": "324666796748-028mcm5lk1pacbjv5lccahgesn2mhkh2.apps.googleusercontent.com",
+                "scope": "openid email profile"
+              }
+            }'
+          ></hot-header>
+          <div class="code-block">
+&lt;hot-header 
+  title="Advanced Auth" 
+  showLogin
+  login-providers='{
+    "osm": {
+      "name": "Personal OSM Account",
+      "loginUrl": "https://www.openstreetmap.org/oauth2/authorize",
+      "redirectUrl": "https://example.com/auth/osm/callback",
+      "clientId": "your-osm-client-id",
+      "scope": "read_prefs"
+    },
+    "google": {
+      "name": "Google Account", 
+      "loginUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+      "redirectUrl": "https://example.com/auth/google/callback",
+      "clientId": "your-google-client-id.apps.googleusercontent.com",
+      "scope": "openid email profile"
+    }
+  }'&gt;
+&lt;/hot-header&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logo Component Examples -->
+    <section class="component-section">
+      <h2 class="component-title">Logo Component Examples</h2>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Full Logo (Icon + Text)</h4>
+          <div class="logo-demo">
+            <hot-logo></hot-logo>
+          </div>
+          <div class="code-block">
+&lt;hot-logo&gt;&lt;/hot-logo&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Icon Only</h4>
+          <div class="logo-demo">
+            <hot-logo icon-only></hot-logo>
+          </div>
+          <div class="code-block">
+&lt;hot-logo icon-only&gt;&lt;/hot-logo&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Text Only</h4>
+          <div class="logo-demo">
+            <hot-logo text-only></hot-logo>
+          </div>
+          <div class="code-block">
+&lt;hot-logo text-only&gt;&lt;/hot-logo&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consent Component Examples -->
+    <section class="component-section">
+      <h2 class="component-title">Consent Component Examples</h2>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Basic Consent Banner</h4>
+          <div class="interactive-demo">
+            <p>Click the button below to show a consent banner:</p>
+            <div class="demo-controls">
+              <button onclick="showConsent()">Show Consent Banner</button>
+              <button onclick="clearConsent()">Clear Consent</button>
+            </div>
+          </div>
+          <hot-consent 
+            id="demo-consent"
+            consent-id="demo-site"
+            title="Privacy Notice"
+            message="This website uses cookies to improve your experience. By continuing to use this site, you agree to our use of cookies."
+            agree-label="Accept All"
+            not-agree-label="Decline">
+          </hot-consent>
+          <div class="code-block">
+&lt;hot-consent 
+  consent-id="demo-site"
+  title="Privacy Notice"
+  message="This website uses cookies to improve your experience."
+  agree-label="Accept All"
+  not-agree-label="Decline"&gt;
+&lt;/hot-consent&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Custom Consent Message</h4>
+          <div class="interactive-demo">
+            <p>Custom consent with additional information:</p>
+            <div class="demo-controls">
+              <button onclick="showCustomConsent()">Show Custom Consent</button>
+            </div>
+          </div>
+          <hot-consent 
+            id="custom-consent"
+            consent-id="custom-site"
+            title="Enhanced Privacy Notice"
+            message="We collect and process your data to provide personalized services and improve our platform."
+            agree-label="I Understand & Accept"
+            not-agree-label="I Need More Info">
+            <div slot="additional-info">
+              <p><strong>What we collect:</strong> Usage analytics, preferences, and session data.</p>
+              <p><strong>How we use it:</strong> To improve services and provide better user experience.</p>
+            </div>
+          </hot-consent>
+          <div class="code-block">
+&lt;hot-consent 
+  consent-id="custom-site"
+  title="Enhanced Privacy Notice"
+  message="We collect and process your data..."
+  agree-label="I Understand & Accept"
+  not-agree-label="I Need More Info"&gt;
+  &lt;div slot="additional-info"&gt;
+    &lt;p&gt;&lt;strong&gt;What we collect:&lt;/strong&gt; Usage analytics...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/hot-consent&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tracking Component Examples -->
+    <section class="component-section">
+      <h2 class="component-title">Tracking Component Examples</h2>
+      
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Basic Tracking Setup</h4>
+          <div class="tracking-demo">
+            <p><strong>Note:</strong> This is a demo configuration. Replace with your actual Matomo credentials.</p>
+          </div>
+          <hot-tracking 
+            site-id="1"
+            domain="varun2948.github.io"
+            matomo-url="https://matomo.hotosm.org"
+            show-consent="true"
+            consent-message="We use analytics to improve our services. Your data helps us understand how our platform is used.">
+          </hot-tracking>
+          <div class="code-block">
+&lt;hot-tracking 
+  site-id="1"
+  domain="demo.hotosm.org"
+  matomo-url="https://matomo.hotosm.org"
+  show-consent="true"
+  consent-message="We use analytics to improve our services..."&gt;
+&lt;/hot-tracking&gt;
+          </div>
+        </div>
+
+        <div class="demo-item">
+          <h4>Tracking Without Consent Banner</h4>
+          <div class="tracking-demo">
+            <p>For cases where consent is handled separately or not required.</p>
+          </div>
+          <hot-tracking 
+            site-id="2"
+            domain="varun2948.github.io"
+            matomo-url="https://matomo.hotosm.org"
+            show-consent="false">
+          </hot-tracking>
+          <div class="code-block">
+&lt;hot-tracking 
+  site-id="2"
+  domain="demo.hotosm.org"
+  matomo-url="https://matomo.hotosm.org"
+  show-consent="false"&gt;
+&lt;/hot-tracking&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="component-section">
+      <h2 class="component-title">Interactive Examples</h2>
+      
+      <div class="demo-item">
+        <h4>Component Event Handling</h4>
+        <div class="interactive-demo">
+          <p>This section demonstrates how to handle events from the components:</p>
+          <div class="demo-controls">
+            <button onclick="trackEvent('button_click', 'demo_button')">Track Custom Event</button>
+            <button onclick="showNotification('success', 'Operation completed successfully!')">Show Success</button>
+            <button onclick="showNotification('error', 'Something went wrong!')">Show Error</button>
+            <button onclick="showNotification('info', 'Here is some information.')">Show Info</button>
+          </div>
+          <div id="event-log" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+            <strong>Event Log:</strong><br>
+            <div id="log-content">No events yet...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="component-section">
+      <h2 class="component-title">Usage Instructions</h2>
+      
+      <div class="demo-item">
+        <h4>Getting Started</h4>
+        <ol>
+          <li><strong>Include the library:</strong> Add the script and CSS files to your HTML</li>
+          <li><strong>Choose components:</strong> Use the appropriate custom elements in your HTML</li>
+          <li><strong>Configure properties:</strong> Set attributes to customize the components</li>
+          <li><strong>Handle events:</strong> Listen for component events to add interactivity</li>
+        </ol>
+        
+        <h4>Available Components</h4>
+        <ul>
+          <li><code>&lt;hot-header&gt;</code> - Navigation header with optional OAuth authentication (OSM, Google)</li>
+          <li><code>&lt;hot-logo&gt;</code> - HOTOSM logo with various display options</li>
+          <li><code>&lt;hot-consent&gt;</code> - Privacy consent banner with customizable messaging</li>
+          <li><code>&lt;hot-tracking&gt;</code> - Matomo analytics integration with consent management</li>
+        </ul>
+        
+        <h4>Important Notes</h4>
+        <div class="tracking-demo">
+          <ul>
+            <li>Replace <code>YOUR_CLIENT_ID</code> and <code>YOUR_REDIRECT_URI</code> with your actual OSM OAuth credentials</li>
+            <li>For Google OAuth, replace <code>your-google-client-id.apps.googleusercontent.com</code> with your actual Google OAuth client ID</li>
+            <li>Update the Matomo tracking configuration with your actual site ID and domain</li>
+            <li>Customize consent messages according to your privacy policy</li>
+            <li>Test all components thoroughly in your specific use case</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showConsent() {
+      const consent = document.getElementById('demo-consent');
+      consent.isOpen = true;
+      consent.force = true;
+    }
+
+    function clearConsent() {
+      localStorage.removeItem('demo-site-consent-agree');
+      const consent = document.getElementById('demo-consent');
+      consent.isOpen = false;
+      consent.force = false;
+    }
+
+    function showCustomConsent() {
+      const consent = document.getElementById('custom-consent');
+      consent.isOpen = true;
+      consent.force = true;
+    }
+
+    function trackEvent(eventName, eventData) {
+      const logContent = document.getElementById('log-content');
+      const timestamp = new Date().toLocaleTimeString();
+      logContent.innerHTML += `[${timestamp}] Event: ${eventName}, Data: ${eventData}<br>`;
+    }
+
+    function showNotification(type, message) {
+      const logContent = document.getElementById('log-content');
+      const timestamp = new Date().toLocaleTimeString();
+      logContent.innerHTML += `[${timestamp}] ${type.toUpperCase()}: ${message}<br>`;
+    }
+
+    // Listen for consent events
+    document.addEventListener('agree', function(e) {
+      const logContent = document.getElementById('log-content');
+      const timestamp = new Date().toLocaleTimeString();
+      logContent.innerHTML += `[${timestamp}] Consent: User agreed to privacy policy<br>`;
+    });
+
+    document.addEventListener('disagree', function(e) {
+      const logContent = document.getElementById('log-content');
+      const timestamp = new Date().toLocaleTimeString();
+      logContent.innerHTML += `[${timestamp}] Consent: User declined privacy policy<br>`;
+    });
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('HOTOSM UI Components Demo loaded successfully!');
+      
+    });
+  </script>
+</body>
+</html> 
